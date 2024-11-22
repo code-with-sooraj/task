@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1 id="welcomeMessage">Loading...</h1>
+  <script>
+    async function loadDashboard() {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:5000/api/auth/dashboard', {
+        headers: { 'Authorization': token },
+      });
+
+      const data = await res.json();
+      if (data.user) {
+        document.getElementById('welcomeMessage').textContent = `Welcome, ${data.user.name}!`;
+      } else {
+        alert(data.error);
+        window.location.href = 'login.html';
+      }
+    }
+    loadDashboard();
+  </script>
+</body>
+</html>
